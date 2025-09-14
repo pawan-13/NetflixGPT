@@ -13,7 +13,6 @@ const Header = ({ setIsShowGptSearch, isShowGptSearch }) => {
     const users = useSelector((state) => state.user);
     const handleSignOut = () => {
         signOut(auth).then(() => {
-            console.log('Sign Out Successfully');
             successMessage('Sign Out Successfully');
         }).catch((error) => {
             console.error("Sign out error:", error);
