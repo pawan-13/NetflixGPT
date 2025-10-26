@@ -20,3 +20,12 @@ export const validationForm = (name, email, password, isSignedIn) => {
 
     return null;
 }
+
+export const ResetEmail = (emailResetValue) => {
+    const ResetEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailResetValue);
+    if (!ResetEmail) {
+        return "Email is not valid";
+
+    }
+    return null;
+}

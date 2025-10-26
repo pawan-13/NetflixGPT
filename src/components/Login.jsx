@@ -9,8 +9,12 @@ import { addUser } from "../redux/userSlice";
 import { USER_AVATAR } from "../utils/constants";
 import { NETFLIX_LOGO } from "../utils/constants";
 import Loader from "./Loader";
+import { useLocation, useNavigate } from "react-router-dom";
+import ResetPassword from "./ResetPassword";
 const Login = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
     const [isSignedIn, setIsSignedIn] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -91,19 +95,29 @@ const Login = () => {
                 <img src={NETFLIX_LOGO}
                     className="w-screen h-screen bg-black font-bold backdrop-opacity-80" alt="bg-logo" />
             </div>
-            <div>
-                <form onSubmit={handleSubmitForm}>
-                    <div className="absolute bg-black top-1/2 left-1/2 w-2/6 transform -translate-x-1/2 -translate-y-1/2 opacity-80 p-16 rounded-lg">
-                        <h1 className="text-white text-3xl font-semibold mb-5">{isSignedIn ? "Sign In" : "Sign Up"}</h1>
-                        {!isSignedIn && <input type="text" ref={name} name="username" id="username" placeholder="Enter Name" className="w-full text-black font-semibold bg-gray-400 p-3 text-base my-2 rounded-md" />}
-                        <input ref={email} type="email" name="email" id="email" placeholder="Enter Email" className="w-full bg-gray-400 p-3 text-black font-semibold text-base my-2 rounded-md" />
-                        <input ref={password} type="password" name="password" id="password" placeholder="Enter Password" className="w-full text-black font-semibold bg-gray-400 text-base p-3 my-2 rounded-md" />
-                        <p className="text-red-600 font-semibold text-base py-1">{error}</p>
-                        <button className="w-full bg-red-600 text-white p-2 my-3 rounded-md">{isLoading ? <div className="flex items-center gap-2"><Loader /></div> : isSignedIn ? "Sign In" : "Sign Up"}</button>
-                        <p onClick={handleSignUp} className="text-white font-semibold py-3 cursor-pointer">{isSignedIn ? "New to Netflix? Sign up now" : "Already have an account? Sign in"}</p>
+            {
+                location?.state?.from !== 'reset-pass' ? (
+                    <div>
+                        <form onSubmit={handleSubmitForm}>
+                            <div className="absolute bg-black top-1/2 left-1/2 w-2/6 transform -translate-x-1/2 -translate-y-1/2 opacity-80 p-16 rounded-lg">
+                                <h1 className="text-white text-3xl font-semibold mb-5">{isSignedIn ? "Sign In" : "Sign Up"}</h1>
+                                {!isSignedIn && <input type="text" ref={name} name="username" id="username" placeholder="Enter Name" className="w-full text-black font-semibold bg-gray-400 p-3 text-base my-2 rounded-md" />}
+                                <input ref={email} type="email" name="email" id="email" placeholder="Enter Email" className="w-full bg-gray-400 p-3 text-black font-semibold text-base my-2 rounded-md" />
+                                <input ref={password} type="password" name="password" id="password" placeholder="Enter Password" className="w-full text-black font-semibold bg-gray-400 text-base p-3 my-2 rounded-md" />
+                                <span className="text-sm text-blue-500 float-right block cursor-pointer" onClick={() => navigate('/', { state: { from: "reset-pass" } })}>Reset Password</span>
+                                <p className="text-red-600 font-semibold text-base py-1">{error}</p>
+                                <button className="w-full bg-red-600 text-white p-2 my-3 rounded-md">{isLoading ? <div className="flex items-center gap-2"><Loader /></div> : isSignedIn ? "Sign In" : "Sign Up"}</button>
+                                <p onClick={handleSignUp} className="text-white font-semibold py-3 cursor-pointer">{isSignedIn ? "New to Netflix? Sign up now" : "Already have an account? Sign in"}</p>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
+                ) :  (
+                    <div>
+                        <ResetPassword/>
+                    </div>
+                )
+            }
+
         </div>
     )
 }

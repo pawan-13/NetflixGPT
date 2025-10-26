@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import { ToastContainer } from 'react-toastify';
 import ErrorBoundary from "./error-boundary/ErrorBoundary";
+import ResetPassword from "./components/ResetPassword";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -21,6 +22,14 @@ const App = () => {
       element: (
         <ErrorBoundary>
           <Home />
+        </ErrorBoundary>
+      )
+    },
+    {
+      path: "/reset-password",
+      element: (
+        <ErrorBoundary>
+          <ResetPassword />
         </ErrorBoundary>
       )
     }
